@@ -3,6 +3,8 @@ from .forms import SensorForm
 from django.urls import reverse
 from .models import Sensor
 from django.contrib.auth.decorators import login_required, user_passes_test
+from .integra_influx import read_from_influx
+from django.http import JsonResponse
 # Create your views here.
 
 def es_admin(user):
@@ -27,3 +29,7 @@ def listar_sensores(request):
     sensores = Sensor.objects.all()  # Obtener todos los sensores de la base de datos
     return render(request, 'listar_sensores.html', {'sensores': sensores})
 
+@login_required
+def mostrar_dato_sensor(request):
+    data = read_from_influx()
+    return JsonResponse({"data": data})
