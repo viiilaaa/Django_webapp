@@ -2,6 +2,8 @@ import paho.mqtt.client as mqtt
 from prueba import settings
 import json
 
+import logging
+
 def on_connect(mqtt_client, userdata, flags, rc):
     if rc == 0:
        print('Connected successfully')
@@ -11,7 +13,10 @@ def on_connect(mqtt_client, userdata, flags, rc):
 
 def on_message(mqtt_client, userdata, msg):
 
-    print(f'Received message on topic: {msg.topic} with payload: {msg.payload}')
+
+    logging.info(f'Received message on topic: {msg.topic} with payload: {msg.payload}')
+
+    
 
 def connect_mqtt():
     client = mqtt.Client()
