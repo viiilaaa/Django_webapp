@@ -6,8 +6,8 @@ def on_connect(mqtt_client, userdata, flags, rc):
     if rc == 0:
        print('Connected successfully')
        mqtt_client.subscribe('sensor/distancia')
-   else:
-       print('Bad connection. Code:', rc)
+    else:
+        print('Bad connection. Code:', rc)
 
 def on_message(mqtt_client, userdata, msg):
 
@@ -18,10 +18,7 @@ def connect_mqtt():
     client.on_connect = on_connect
     client.on_message = on_message
     client.username_pw_set(settings.MQTT_USER, settings.MQTT_PASSWORD)
-    client.connect(settings.MQTT_BROKER_URL, settings.MQTT_BROKER_PORT, 60)
-    client.subscribe(settings.MQTT_TOPIC)
-    client.loop_start()
-    print("Conectado a EMQX y suscrito a:", settings.MQTT_TOPIC)
+    client.connect(host=settings.MQTT_BROKER_URL, port=settings.MQTT_BROKER_PORT, keepalive=60)
 
     
 
