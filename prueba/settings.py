@@ -140,11 +140,8 @@ AUTH_USER_MODEL = 'usuarios.UsuarioPersonalizado'
 
 LOGIN_URL = '/usuarios/login/'
 
-
-INFLUXDB = {
-    "URL": "http://influxdb:8086",
-    "TOKEN": "sergio-infosensor-auth-token",
-    "ORG": "tfg_udc",
-    "BUCKET": "infosensor",
-
-}
+MQTT_BROKER_URL = "emqx"
+MQTT_BROKER_PORT = 1883
+MQTT_TOPIC = "sensores/datos"
+MQTT_USER = "sergio"
+MQTT_PASSWORD = "prueba"
