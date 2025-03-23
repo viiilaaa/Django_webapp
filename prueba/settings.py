@@ -144,32 +144,3 @@ MQTT_BROKER_URL = "broker.emqx.io"
 MQTT_BROKER_PORT = 1883
 MQTT_USER = "sergio"
 MQTT_PASSWORD = "prueba"
-
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',  # Nivel mínimo de logging
-            'class': 'logging.StreamHandler',
-        },
-        'file': {
-            'level': 'DEBUG',  # Nivel mínimo de logging
-            'class': 'logging.FileHandler',
-            'filename': 'app.log',  # Ruta al archivo de log
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console', 'file'],
-            'level': 'DEBUG',  # Nivel de logs que se manejarán
-            'propagate': True,
-        },
-        'mqtt': {
-            'handlers': ['console', 'file'],
-            'level': 'DEBUG',  # Puedes cambiar el nivel si lo necesitas
-            'propagate': True,
-        },
-    },
-}
