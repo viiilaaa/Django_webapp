@@ -25,18 +25,20 @@ services:
       POSTGRES_PASSWORD: postgres
 
   emqx:
-    user: root
-    image: "emqx:4.4.3"
+    user: root 
+    image: emqx:4.4.3
     restart: always
     ports:
       - "18083:18083" 
       - "1883:1883"
+      - "8083:8083"
     volumes:
       - ./data/emqx/data:/opt/emqx/data
       - ./data/emqx/log:/opt/emqx/log
     environment:
       - EMQX_DASHBOARD__DEFAULT_USER__LOGIN=sergio
       - EMQX_DASHBOARD__DEFAULT_USER__PASSWORD=prueba
+      - EMQX_ALLOW_ANONYMOUS=true
 
 volumes:
   postgres-data:

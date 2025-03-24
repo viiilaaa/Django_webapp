@@ -140,7 +140,7 @@ AUTH_USER_MODEL = 'usuarios.UsuarioPersonalizado'
 
 LOGIN_URL = '/usuarios/login/'
 
-MQTT_BROKER_URL = "localhost"
+MQTT_BROKER_URL = "emqx"
 MQTT_BROKER_PORT = 1883
 MQTT_USER = "sergio"
 MQTT_PASSWORD = "prueba"
