@@ -27,6 +27,7 @@ services:
   emqx:
     user: root
     image: "emqx:4.4.3"
+    restart: always
     ports:
       - "18083:18083" 
       - "1883:1883"
