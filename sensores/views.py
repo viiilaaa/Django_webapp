@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from .forms import SensorForm
-from django.urls import reverse
 from .models import Sensor, MedicionSensor
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.http import JsonResponse
 from .serializer import SensorSerializer, MedicionSensorSerializer
-from rest_framework import viewsets
+from rest_framework import viewsets, mixins, status
+
+from rest_framework.permissions import IsAuthenticated
+from usuarios.permissions import IsStandardUser
 # Create your views here.
 
 def es_admin(user):
@@ -14,6 +15,10 @@ def es_admin(user):
 class SensorViewSet(viewsets.ModelViewSet):
     queryset = Sensor.objects.all()  # Recupera todos los sensores de la BD
     serializer_class = SensorSerializer
+
+    def get_permissions(self):
+        permission_classes = [IsAuthenticated, IsStandardUser]
+        return [permission() for permission in permission_classes]
 
 class MedicionSensorViewSet(viewsets.ModelViewSet):
     #queryset = MedicionSensor.objects.all()
