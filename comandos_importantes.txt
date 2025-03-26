@@ -3,3 +3,5 @@
     "distancia": 75.5,
     "fecha_medicion": "2025-03-26T14:30:00"
 }
+
+docker exec api_drf_curriculum_web_1 bash -c "python manage.py migrate"
