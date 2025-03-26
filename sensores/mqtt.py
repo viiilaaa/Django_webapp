@@ -2,7 +2,8 @@ import paho.mqtt.client as mqtt
 from prueba import settings
 from .models import MedicionSensor, Sensor
 from django.utils.dateparse import parse_datetime
-
+import json
+from django.utils import timezone
 
 
 def on_connect(mqtt_client, userdata, flags, rc):
@@ -23,6 +24,10 @@ def on_message(client, userdata, msg):
 
     # Convertir la fecha recibida a un formato DateTime
     fecha_medicion = parse_datetime(fecha_medicion)
+
+    if fecha_medicion:
+        fecha_medicion = timezone.make_aware(fecha_medicion, timezone.get_current_timezone())
+
 
     # Obtener el sensor relacionado
     try:

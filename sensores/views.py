@@ -5,6 +5,7 @@ from .models import Sensor, MedicionSensor
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import JsonResponse
 from .serializer import SensorSerializer, MedicionSensorSerializer
+from rest_framework import viewsets
 # Create your views here.
 
 def es_admin(user):

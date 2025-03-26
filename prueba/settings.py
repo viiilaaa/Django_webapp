@@ -145,3 +145,5 @@ MQTT_BROKER_URL = "emqx"
 MQTT_BROKER_PORT = 1883
 MQTT_USER = "sergio"
 MQTT_PASSWORD = "prueba"
+
+ALLOWED_HOSTS = ["192.168.1.74", "localhost", "127.0.0.1"]
