@@ -1,15 +1,9 @@
-import time
 import paho.mqtt.client as mqtt
 from prueba import settings
-import threading
+from .models import MedicionSensor, Sensor
+from django.utils.dateparse import parse_datetime
 
-import logging
 
-
-MAX_RETRIES = 5  # Máximo de intentos de conexión
-RETRY_DELAY = 5 
-
-mqtt_client = None 
 
 def on_connect(mqtt_client, userdata, flags, rc):
     if rc == 0:
@@ -18,12 +12,32 @@ def on_connect(mqtt_client, userdata, flags, rc):
     else:
         print('Bad connection. Code:', rc)
 
-def on_message(mqtt_client, userdata, msg):
+def on_message(client, userdata, msg):
+    # El mensaje llega en formato JSON
+    data = json.loads(msg.payload.decode())
 
-    print(f'Received message on topic: {msg.topic} with payload: {msg.payload}')
+    # Procesar el mensaje, por ejemplo, obtener los datos
+    sensor_id = data['sensor_id']
+    distancia = data['distancia']
+    fecha_medicion = data['fecha_medicion']  # La fecha también se recibe como parámetro
 
+    # Convertir la fecha recibida a un formato DateTime
+    fecha_medicion = parse_datetime(fecha_medicion)
 
+    # Obtener el sensor relacionado
+    try:
+        sensor = Sensor.objects.get(id=sensor_id)
+    except Sensor.DoesNotExist:
+        # Si el sensor no existe, no hacemos nada o logueamos un error
+        return
 
+    # Guardar la medición
+    medicion = MedicionSensor(sensor=sensor, distancia=distancia, fecha_medicion=fecha_medicion)
+    medicion.save()
+
+#MAX_RETRIES = 5  # Máximo de intentos de conexión
+#RETRY_DELAY = 5 
+#mqtt_client = None 
 #def connect_mqtt():
 #    global mqtt_client
 #    if mqtt_client is not None:

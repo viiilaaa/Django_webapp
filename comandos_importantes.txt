@@ -1,0 +1,5 @@
+{
+    "sensor_id": 1,
+    "distancia": 75.5,
+    "fecha_medicion": "2025-03-26T14:30:00"
+}
