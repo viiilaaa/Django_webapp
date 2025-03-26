@@ -140,7 +140,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'usuarios.UsuarioPersonalizado'
 
-LOGIN_URL = '/usuarios/login/'
 
 MQTT_BROKER_URL = "emqx"
 MQTT_BROKER_PORT = 1883
@@ -148,12 +147,3 @@ MQTT_USER = "sergio"
 MQTT_PASSWORD = "prueba"
 
 ALLOWED_HOSTS = ["192.168.1.74", "localhost", "127.0.0.1"]
-
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
-    ],
-}
