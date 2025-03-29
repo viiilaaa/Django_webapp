@@ -11,10 +11,10 @@ from django.contrib.auth.decorators import login_required
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
-
+from rest_framework.authtoken.models import Token
 # Serializers
 from .serializers import UserLoginSerializer, UserModelSerializer, UserSignUpSerializer
-
+from rest_framework.permissions import IsAuthenticated
 # Models
 from .models import UsuarioPersonalizado
 
@@ -45,6 +45,17 @@ class UserViewSet(viewsets.GenericViewSet):
         user = serializer.save()
         data = UserModelSerializer(user).data
         return Response(data, status=status.HTTP_201_CREATED)
+    
+     
+    @action(detail=False, methods=['post'], permission_classes=[IsAuthenticated])
+    def logout(self, request):
+        """User logout: elimina el token de autenticación."""
+        user = request.user
+
+        # Elimina el token
+        Token.objects.filter(user=user).delete()
+
+        return Response({"message": "Logout exitoso"}, status=status.HTTP_200_OK)
     
 def home(request):
     return render(request, 'home.html')
