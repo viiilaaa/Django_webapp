@@ -1,11 +1,8 @@
 from django.utils.timezone import now
-from django.shortcuts import render, redirect
-from .forms import SensorForm
 from .models import Sensor, MedicionSensor
-from django.contrib.auth.decorators import login_required, user_passes_test
+from rest_framework.decorators import action
 from .serializer import SensorSerializer, MedicionSensorSerializer
-from rest_framework import viewsets, mixins, status
-
+from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from usuarios.permissions import IsStandardUser
 from django.utils.dateparse import parse_datetime
@@ -31,7 +28,7 @@ class MedicionSensorViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         permission_classes = [IsAuthenticated, IsStandardUser]
         return [permission() for permission in permission_classes]
-
+    @action(detail=False, methods=['get'], url_path='fecha')
     def list(self, request, *args, **kwargs):
         """Filtra mediciones por sensor_id y rango de fechas."""
         sensor_id = self.kwargs.get('sensor_id')
@@ -54,4 +51,16 @@ class MedicionSensorViewSet(viewsets.ModelViewSet):
         mediciones = MedicionSensor.objects.filter(sensor_id=sensor_id, fecha_medicion__range=(fecha_inicio, fecha_fin))
         
         serializer = MedicionSensorSerializer(mediciones, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    @action(detail=False, methods=['get'], url_path='ultima')
+    def ultima_medicion(self, request, sensor_id=None):
+        """Obtener la última medición de un sensor específico."""
+        ultima_medicion = MedicionSensor.objects.filter(sensor_id=sensor_id).order_by('-fecha_medicion').first()
+
+        if not ultima_medicion:
+            return Response({"error": "No se encontraron mediciones para este sensor"},
+                            status=status.HTTP_404_NOT_FOUND)
+    
+        serializer = MedicionSensorSerializer(ultima_medicion)
         return Response(serializer.data, status=status.HTTP_200_OK)
